@@ -26,14 +26,15 @@ MyReads is a bookshelf app using React that allows you to select and categorize 
    - In the book detail popup, you are able to add it to the shelf or change the shelf.
 
 
-## Backend API
-https://reactnd-books-api.udacity.com Provided by Udacity. The available endpoints are
-- GET /books/:bookId
-  - get one book info
-- GET /books
-  - get all books in the bookshelf
-- PUT /books/:bookId
-  - update the book shelf info for one book
-- POST /search with {"query": <query string>} in body.
-  - search keywords and return a list of books.
- 
+## Misc
+1. Backend API https://reactnd-books-api.udacity.com Provided by Udacity. The available endpoints are
+   - GET /books/:bookId
+     - get one book info
+   - GET /books
+     - get all books in the bookshelf
+   - PUT /books/:bookId
+     - update the book shelf info for one book
+   - POST /search with {"query": <query string>} in body.
+     - search keywords and return a list of books.
+2. All js codes are passed Prettier/ESLint run.
+
