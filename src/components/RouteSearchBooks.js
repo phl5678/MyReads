@@ -5,14 +5,12 @@ import PropTypes from 'prop-types';
 
 const RouteSearchBooks = ({ books, onAddBook, onChangeShelf }) => {
   const [searchBooks, setSearchBooks] = useState([]);
-  const [searched, setSearched] = useState(false);
 
   return (
     <div className="search-books">
-      <SearchBooksBar books={books} setSearched={setSearched} setSearchBooks={setSearchBooks} />
+      <SearchBooksBar books={books} setSearchBooks={setSearchBooks} />
       <SearchBooksResult
         searchBooks={searchBooks}
-        searched={searched}
         onAddBook={onAddBook}
         onChangeShelf={onChangeShelf}
       />

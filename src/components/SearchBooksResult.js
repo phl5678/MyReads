@@ -1,7 +1,7 @@
 import BookItem from './BookItem';
 import PropTypes from 'prop-types';
 
-const SearchBooksResult = ({ searchBooks, searched, onAddBook, onChangeShelf }) => {
+const SearchBooksResult = ({ searchBooks, onAddBook, onChangeShelf }) => {
   return (
     <div className="search-books-results">
       <ol className="books-grid">
@@ -15,10 +15,8 @@ const SearchBooksResult = ({ searchBooks, searched, onAddBook, onChangeShelf }) 
               )}
             </li>
           ))
-        ) : searched ? (
-          <span>No result found.</span>
         ) : (
-          ''
+          <span>No result found.</span>
         )}
       </ol>
     </div>
@@ -27,7 +25,6 @@ const SearchBooksResult = ({ searchBooks, searched, onAddBook, onChangeShelf }) 
 
 SearchBooksResult.propTypes = {
   searchBooks: PropTypes.array,
-  searched: PropTypes.bool,
   onAddBook: PropTypes.func,
   onChangeShelf: PropTypes.func
 };

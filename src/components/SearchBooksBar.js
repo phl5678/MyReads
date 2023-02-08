@@ -1,10 +1,29 @@
 import * as BooksAPI from '../BooksAPI';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { DebounceInput } from 'react-debounce-input';
 
-const SearchBooksBar = ({ books, setSearchBooks, setSearched }) => {
+const SearchBooksBar = ({ books, setSearchBooks }) => {
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const searchKeywords = (keywords) => {
+      const q = keywords.trim().toLowerCase();
+
+      const search = async () => {
+        const res = await BooksAPI.search(q);
+        if (res.length > 0) {
+          const updated = updateSearchResult(res);
+          setSearchBooks(updated);
+        } else {
+          setSearchBooks([]);
+        }
+      };
+      q.length === 0 ? setSearchBooks([]) : search();
+    };
+    searchKeywords(query);
+  }, [query]);
 
   const updateSearchResult = (res) => {
     return res.map((r) => {
@@ -17,47 +36,30 @@ const SearchBooksBar = ({ books, setSearchBooks, setSearched }) => {
     setQuery(e.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      const q = query.trim().toLowerCase();
-
-      const search = async () => {
-        const res = await BooksAPI.search(q);
-        if (res.length > 0) {
-          const updated = updateSearchResult(res);
-          setSearchBooks(updated);
-        } else {
-          setSearchBooks([]);
-        }
-      };
-
-      q.length === 0 ? setSearchBooks([]) : search();
-      setSearched(true);
-    }
-  };
-
   return (
-    <div>
-      <div className="search-books-bar">
-        <Link to="/" className="close-search">
-          Close
-        </Link>
-        <div className="search-books-input-wrapper">
-          <input
-            type="text"
-            placeholder="Search by title, author, or ISBN."
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-        </div>
+    <div className="search-books-bar">
+      <Link to="/" className="close-search">
+        Close
+      </Link>
+      <div className="search-books-input-wrapper">
+        <DebounceInput
+          type="text"
+          placeholder="Search by title, author, or ISBN."
+          debounceTimeout={500}
+          onChange={handleChange}
+        />
+
+        {/* <input
+          type="text"
+          placeholder="Search by title, author, or ISBN."
+          onChange={handleChange}
+        /> */}
       </div>
-      <div className="search-subtitle">Type and hit enter to begin search.</div>
     </div>
   );
 };
 SearchBooksBar.propTypes = {
   books: PropTypes.array,
-  setSearchBooks: PropTypes.func,
-  setSearched: PropTypes.func
+  setSearchBooks: PropTypes.func
 };
 export default SearchBooksBar;

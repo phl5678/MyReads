@@ -7,7 +7,7 @@ const BookInfoPublish = ({ book }) => {
       {book.publisher ? (
         <span>
           <span>By </span>
-          <strong>{book.publisher}</strong>
+          <strong>{book.publisher} </strong>
         </span>
       ) : (
         ''
