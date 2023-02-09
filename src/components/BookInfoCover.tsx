@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-const BookInfoCover = ({ book }) => {
+import { Book } from '../models/Book';
+
+const BookInfoCover = ({ book }: { book: Book }) => {
   return (
     <div
       className="book-cover"
@@ -7,7 +9,8 @@ const BookInfoCover = ({ book }) => {
         width: 128,
         height: 193,
         backgroundImage: `url("${book.imageLinks?.thumbnail}")`
-      }}></div>
+      }}
+    />
   );
 };
 BookInfoCover.propTypes = {

@@ -3,17 +3,25 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
 import BookDetails from './BookDetails';
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
 
-const RouteBookDetails = ({ onChangeShelf, onAddBook }) => {
-  const { bookId } = useParams();
+type Props = {
+  onChangeShelf: (book: Book) => void;
+  onAddBook: (book: Book) => void;
+};
+const RouteBookDetails = ({ onChangeShelf, onAddBook }: Props) => {
+  const { bookId } = useParams<{ bookId: string | undefined }>();
   const location = useLocation();
-  const { bookFromParent } = location.state ? location.state : { bookFromParent: null };
-  const [book, setBook] = useState(bookFromParent);
+  const { bookFromParent } = location.state || { bookFromParent: null };
+  const [book, setBook] = useState<Book>(bookFromParent);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getBook = async () => {
       try {
+        if (bookId === undefined) {
+          throw new Error('Missing bookId in the URL.');
+        }
         const res = await BooksAPI.get(bookId);
         setBook(res);
       } catch (err) {
@@ -23,13 +31,7 @@ const RouteBookDetails = ({ onChangeShelf, onAddBook }) => {
     if (book === null) getBook();
   }, [bookId, book]);
 
-  return book ? (
-    <div className="container">
-      <BookDetails book={book} onChangeShelf={onChangeShelf} onAddBook={onAddBook} />
-    </div>
-  ) : (
-    ''
-  );
+  return <div className="container">{book ? <BookDetails book={book} onChangeShelf={onChangeShelf} onAddBook={onAddBook} /> : ''}</div>;
 };
 
 RouteBookDetails.propTypes = {

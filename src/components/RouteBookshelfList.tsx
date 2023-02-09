@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Bookshelf from './Bookshelf';
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
 
 const Bookshelfs = [
   {
@@ -17,17 +18,17 @@ const Bookshelfs = [
   }
 ];
 
-const RouteBookshelfList = ({ books, onChangeShelf }) => {
+type Props = {
+  books: Book[];
+  onChangeShelf: (book: Book) => void;
+};
+
+const RouteBookshelfList = ({ books, onChangeShelf }: Props) => {
   return (
     <div className="list-books">
       <div className="list-books-content">
         {Bookshelfs.map((bs) => (
-          <Bookshelf
-            key={bs.key}
-            title={bs.title}
-            books={books.filter((b) => b.shelf === bs.key)}
-            onChangeShelf={onChangeShelf}
-          />
+          <Bookshelf key={bs.key} title={bs.title} books={books.filter((b) => b.shelf === bs.key)} onChangeShelf={onChangeShelf} />
         ))}
       </div>
       <div className="open-search">

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
 
-const BookInfoTitle = ({ book }) => {
+const BookInfoTitle = ({ book }: { book: Book }) => {
   return (
     <div className="book-title">
       {book.title}

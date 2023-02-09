@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
 
-const BookInfoPublish = ({ book }) => {
+const BookInfoPublish = ({ book }: { book: Book }) => {
   return (
     <div className="book-publish">
       <span>Published </span>

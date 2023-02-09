@@ -1,7 +1,13 @@
-import Book from './BookItem';
+import BookItem from './BookItem';
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
 
-const Bookshelf = ({ title, books, onChangeShelf }) => {
+type Props = {
+  title: string;
+  books: Book[];
+  onChangeShelf: (book: Book) => void;
+};
+const Bookshelf = ({ title, books, onChangeShelf }: Props) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -9,7 +15,7 @@ const Bookshelf = ({ title, books, onChangeShelf }) => {
         <ol className="books-grid">
           {books?.map((b) => (
             <li key={b.id}>
-              <Book book={b} onChangeShelf={onChangeShelf} />
+              <BookItem book={b} onChangeShelf={onChangeShelf} />
             </li>
           ))}
         </ol>

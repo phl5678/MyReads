@@ -7,17 +7,25 @@ import BookInfoAuthors from './BookInfoAuthors';
 import BookDetails from './BookDetails';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
+import { Book } from '../models/Book';
+
+type Props = {
+  book: Book;
+  onChangeShelf?: (book: Book) => void;
+  onAddBook?: (book: Book) => void;
+  fromSearch?: boolean;
+};
 
 Modal.setAppElement('#root');
-const BookItem = ({ book, onChangeShelf, onAddBook, fromSearch }) => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+const BookItem = ({ book, onChangeShelf, onAddBook, fromSearch }: Props) => {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-  function openModal() {
+  const openModal = (): void => {
     setModalIsOpen(true);
-  }
-  function closeModal() {
+  };
+  const closeModal = (): void => {
     setModalIsOpen(false);
-  }
+  };
 
   return (
     <div className="book">
@@ -38,11 +46,7 @@ const BookItem = ({ book, onChangeShelf, onAddBook, fromSearch }) => {
       <BookInfoAuthors book={book} />
 
       {fromSearch ? (
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          className="book-details-modal"
-          contentLabel="Book Details">
+        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="book-details-modal" contentLabel="Book Details">
           <Link to="#" onClick={closeModal} className="close-modal">
             Close
           </Link>

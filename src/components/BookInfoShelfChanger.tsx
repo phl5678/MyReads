@@ -1,17 +1,22 @@
 import { Bookshelfs } from './RouteBookshelfList';
 import PropTypes from 'prop-types';
+import { Book } from '../models/Book';
+import { ChangeEvent } from 'react';
 
-const BookInfoShelfChanger = ({ book, onChangeShelf, onAddBook }) => {
-  const handleChange = (e) => {
+type Props = {
+  book: Book;
+  onChangeShelf?: (book: Book) => void;
+  onAddBook?: (book: Book) => void;
+};
+const BookInfoShelfChanger = ({ book, onChangeShelf, onAddBook }: Props) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     book.shelf = e.target.value;
-    onChangeShelf ? onChangeShelf(book) : onAddBook(book);
+    onChangeShelf ? onChangeShelf(book) : onAddBook && onAddBook(book);
   };
 
   return (
     <div className="book-shelf-changer">
-      <select
-        value={book.shelf && book.shelf !== 'none' ? book.shelf : 'label'}
-        onChange={handleChange}>
+      <select value={book.shelf ? book.shelf : 'none'} onChange={handleChange}>
         <option value="label" disabled>
           {book.shelf && book.shelf !== 'none' ? 'Move to...' : 'Add to...'}
         </option>
@@ -20,7 +25,7 @@ const BookInfoShelfChanger = ({ book, onChangeShelf, onAddBook }) => {
             {bs.title}
           </option>
         ))}
-        {book.shelf && book.shelf !== 'none' ? <option value="none">None</option> : ''}
+        <option value="none">None</option>
       </select>
     </div>
   );

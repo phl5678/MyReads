@@ -5,8 +5,15 @@ import BookInfoTitle from './BookInfoTitle';
 import BookInfoAuthors from './BookInfoAuthors';
 import BookInfoPublish from './BookInfoPublish';
 import BookInfoDescription from './BookInfoDescription';
+import { Book } from '../models/Book';
 
-const BookDetails = ({ book, onChangeShelf, onAddBook }) => {
+type Props = {
+  book: Book;
+  onChangeShelf?: (book: Book) => void;
+  onAddBook?: (book: Book) => void;
+};
+
+const BookDetails = ({ book, onChangeShelf, onAddBook }: Props) => {
   return (
     <div className="book-details">
       <div className="book-top">

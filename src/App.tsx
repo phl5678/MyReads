@@ -7,19 +7,20 @@ import RouteBookshelfList from './components/RouteBookshelfList';
 import RouteBookDetails from './components/RouteBookDetails';
 import Header from './components/Header';
 import NotFound from './components/RouteNotFound';
+import { Book } from './models/Book';
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    const getBooks = async () => {
+    const getBooks = async (): Promise<void> => {
       const res = await BooksAPI.getAll();
       setBooks(res);
     };
     getBooks();
   }, []);
 
-  const onChangeShelf = (book) => {
+  const onChangeShelf = (book: Book): void => {
     const update = async () => {
       await BooksAPI.update(book, book.shelf);
       setBooks(books.map((b) => (b.id === book.id ? book : b)));
@@ -27,7 +28,7 @@ function App() {
     update();
   };
 
-  const onAddBook = (book) => {
+  const onAddBook = (book: Book): void => {
     const add = async () => {
       await BooksAPI.update(book, book.shelf);
       setBooks([...books, book]);
@@ -39,22 +40,10 @@ function App() {
     <div className="app">
       <Header />
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={<RouteBookshelfList books={books} onChangeShelf={onChangeShelf} />}
-        />
-        <Route
-          path="/book/:bookId"
-          element={<RouteBookDetails onChangeShelf={onChangeShelf} onAddBook={onAddBook} />}
-        />
+        <Route path="/" element={<RouteBookshelfList books={books} onChangeShelf={onChangeShelf} />} />
+        <Route path="/book/:bookId" element={<RouteBookDetails onChangeShelf={onChangeShelf} onAddBook={onAddBook} />} />
 
-        <Route
-          path="/search"
-          element={
-            <RouteSearchBooks books={books} onAddBook={onAddBook} onChangeShelf={onChangeShelf} />
-          }
-        />
+        <Route path="/search" element={<RouteSearchBooks books={books} onAddBook={onAddBook} onChangeShelf={onChangeShelf} />} />
         <Route path="/404" element={<NotFound />} />
       </Routes>
     </div>

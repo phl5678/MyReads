@@ -1,14 +1,20 @@
 import * as BooksAPI from '../BooksAPI';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input';
+import { Book } from '../models/Book';
 
-const SearchBooksBar = ({ books, setSearchBooks }) => {
-  const [query, setQuery] = useState('');
+type Props = {
+  books: Book[];
+  setSearchBooks: Dispatch<SetStateAction<Book[]>>;
+};
+
+const SearchBooksBar = ({ books, setSearchBooks }: Props) => {
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    const searchKeywords = (keywords) => {
+    const searchKeywords = (keywords: string): void => {
       const q = keywords.trim().toLowerCase();
 
       const search = async () => {
@@ -25,14 +31,14 @@ const SearchBooksBar = ({ books, setSearchBooks }) => {
     searchKeywords(query);
   }, [query]);
 
-  const updateSearchResult = (res) => {
+  const updateSearchResult = (res: Book[]): Book[] => {
     return res.map((r) => {
       const match = books.filter((b) => b.id === r.id);
       return match.length > 0 ? match[0] : r;
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setQuery(e.target.value);
   };
 
@@ -42,18 +48,7 @@ const SearchBooksBar = ({ books, setSearchBooks }) => {
         Close
       </Link>
       <div className="search-books-input-wrapper">
-        <DebounceInput
-          type="text"
-          placeholder="Search by title, author, or ISBN."
-          debounceTimeout={500}
-          onChange={handleChange}
-        />
-
-        {/* <input
-          type="text"
-          placeholder="Search by title, author, or ISBN."
-          onChange={handleChange}
-        /> */}
+        <DebounceInput type="text" placeholder="Search by title, author, or ISBN." debounceTimeout={500} onChange={handleChange} />
       </div>
     </div>
   );
