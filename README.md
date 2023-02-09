@@ -36,5 +36,5 @@ MyReads is a bookshelf app using React that allows you to select and categorize 
      - update the book shelf info for one book
    - POST /search with {"query": <query string>} in body.
      - search keywords and return a list of books.
-2. All js codes are passed Prettier/ESLint run.
+2. All js codes are passed Prettier/ESLint run, and type-scripted.
 
